@@ -13,15 +13,19 @@ import time
 import glob
 import os
 import csv
+import sys
+import argparse
 import numpy as np
+
+tmp_path = os.path.dirname(os.path.abspath(__file__))
+root_path = '/'.join(tmp_path.split('/')[:-2])
+sys.path.append(root_path)
 from utils.config import cfg
 from model.main_msnet import MsNet
 from workflow.train.dataset_loader import fill_feature_cuda
 from utils.polar_mask import get_point_instance, get_final_masks
 from utils.ms_compatibility import get_mz_fwhm
 
-tmp_path = os.path.dirname(__file__)
-root_path = '/'.join(tmp_path.split('/')[:-2])
 
 
 class MsNetEvaluator:
@@ -199,3 +203,27 @@ class MsNetEvaluator:
         mid_area = (areas[1:] + areas[:-1]) / 2
         volume = np.sum(rt_interval * mid_area)
         return volume
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Untargeted feature extraction')
+
+    parser.add_argument('--data_dir', type=str, help='dataset dir', required=True)
+    parser.add_argument('--mass_analyzer', type=str, help='orbitrap or tof', required=True)
+    parser.add_argument('--mz_resolution', type=float, help='the resolution of mass analyzer', required=True)
+    parser.add_argument('--resolution_mz', type=float, help='the m/z value at the resolution', required=True)
+    parser.add_argument('--rt_fwhm', type=float, help='median of feature RT FWHM', required=True)
+    parser.add_argument('--experiment', type=str, help='choose a pretrained model', default='msnet_20220215_143158')
+    parser.add_argument('--epoch', type=int, help='choose the epoch of saved model', default=300)
+    parser.add_argument('--block_rt_width', type=float, help='point cloud rt window width', default=6)
+    parser.add_argument('--block_mz_width', type=float, help='point cloud m/z window width', default=0.8)
+    parser.add_argument('--target_id', type=int, help='None, not visualize. -1, visualize each point cloud. Integer, visualize a specific point cloud', default=None)
+    args = parser.parse_args()
+    os.environ["CUDA_VISIBLE_DEVICES"] = '0'
+
+    data_dir = glob.glob(os.path.join(args.data_dir, '*arget-*'))
+    print(data_dir)
+    evaluator = MsNetEvaluator(exp=args.experiment, epoch=args.epoch)
+    for eval_dir in data_dir:
+        evaluator.eval(eval_dir=eval_dir, mass_analyzer=args.mass_analyzer, mz_resolution=args.mz_resolution,
+                       resolution_mz=args.resolution_mz, rt_fwhm=args.rt_fwhm, block_rt_width=args.block_rt_width,
+                       block_mz_width=args.block_mz_width, target_id=args.target_id)

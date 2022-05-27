@@ -1,1 +1,8 @@
 /.idea/
+/cuda/build/
+/cuda/dist/
+/cuda/msnet.egg-info/
+/dataset/
+/build/temp.linux-x86_64-3.6/
+/msnet.egg-info/
+/result/

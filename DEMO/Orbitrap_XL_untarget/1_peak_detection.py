@@ -20,9 +20,9 @@ from workflow.predict.main_eval import MsNetEvaluator
 os.environ["CUDA_VISIBLE_DEVICES"] = '0'
 network_dir = 'msnet_20220215_143158'
 epoch = 300
-data_root = os.path.join(root_path, 'dataset', 'PXD001091')
-# file_names = ['130124_dilA_1_01', '130124_dilA_1_02', '130124_dilA_1_03', '130124_dilA_1_04']
-file_names = ['130124_dilA_2_01', '130124_dilA_2_02', '130124_dilA_2_03', '130124_dilA_2_04',
+data_root = os.path.join(root_path, 'dataset', 'Orbitrap_XL')
+file_names = ['130124_dilA_1_01', '130124_dilA_1_02', '130124_dilA_1_03', '130124_dilA_1_04',
+              '130124_dilA_2_01', '130124_dilA_2_02', '130124_dilA_2_03', '130124_dilA_2_04',
               '130124_dilA_2_05', '130124_dilA_2_06', '130124_dilA_2_07',
               '130124_dilA_3_01', '130124_dilA_3_02', '130124_dilA_3_03', '130124_dilA_3_04',
               '130124_dilA_3_05', '130124_dilA_3_06', '130124_dilA_3_07',

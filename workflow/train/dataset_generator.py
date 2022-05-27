@@ -297,6 +297,6 @@ def load_anno_file(file_path, point_num):
 
 
 if __name__ == '__main__':
-    generate_anno_dataset()
+    # generate_anno_dataset()
 
     split_dataset(cfg.data_anno_dir)

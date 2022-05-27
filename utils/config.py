@@ -18,12 +18,8 @@ root_path = '/'.join(tmp_path.split('/')[:-2])
 
 
 def get_parser():
-    parser = argparse.ArgumentParser(description='Point Cloud Segmentation')
-    parser.add_argument('--config', type=str, default='config/msnet_default.yaml', help='path to config file')
-
-    args_cfg = parser.parse_args()
-    assert args_cfg.config is not None
-    cfg_dir = os.path.join(os.path.dirname(__file__), "../", args_cfg.config)
+    args_cfg = argparse.FileType
+    cfg_dir = os.path.join(os.path.dirname(__file__), "../config/msnet_default.yaml")
     with open(cfg_dir, 'r') as f:
         config = yaml.load(f, Loader=yaml.FullLoader)
     for key in config:

@@ -231,7 +231,7 @@ class DDATargetGenerator(_BasePCGenerator, _Extractor):
 
 class DDAUntargetGenerator(_BasePCGenerator, _Extractor):
     def __init__(self, ms_file_path, output_dir, from_mz, to_mz, from_rt, to_rt, window_mz_width=0.8, window_rt_width=6,
-                 max_peak_mz_width=0.1, max_peak_rt_width=1, min_intensity=128):
+                 expansion_mz_width=0.1, expansion_rt_width=1, min_intensity=128):
         super().__init__(ms_file_path=ms_file_path, output_dir=output_dir)
         self.from_mz = from_mz
         self.to_mz = to_mz
@@ -239,8 +239,8 @@ class DDAUntargetGenerator(_BasePCGenerator, _Extractor):
         self.to_rt = to_rt
         self.window_mz_width = window_mz_width
         self.window_rt_width = window_rt_width
-        self.max_peak_mz_width = max_peak_mz_width
-        self.max_peak_rt_width = max_peak_rt_width
+        self.expansion_mz_width = expansion_mz_width
+        self.expansion_rt_width = expansion_rt_width
 
         self.load_ms1_spectra(min_intensity)
 
@@ -256,15 +256,10 @@ class DDAUntargetGenerator(_BasePCGenerator, _Extractor):
         window_rts = window_rts.flatten().astype(np.float32)
         window_mzs = window_mzs.flatten().astype(np.float32)
 
-        mz_tolerance = self.window_mz_width / 2.0 + self.max_peak_mz_width
-        rt_tolerance = self.window_rt_width / 2.0 + self.max_peak_rt_width
+        mz_tolerance = self.window_mz_width / 2.0 + self.expansion_mz_width
+        rt_tolerance = self.window_rt_width / 2.0 + self.expansion_rt_width
 
         start_time = time.time()
-        # target_mzs = np.array([684.0])
-        # center_mzs = np.array([500.0])
-        # center_rts = np.array([90.0])
-        # mz_tolerance = 100
-        # rt_tolerance = 20
         bat_pc = self._bat_extract_pc_fast(self.ms1_spectra, center_mzs, center_rts, rt_tolerance, mz_tolerance)
         print('extract time:' + str(time.time() - start_time))
 
@@ -336,13 +331,8 @@ def extract(args):
         data_path = [args.data_dir]
     else:
         data_path = glob.glob(os.path.join(args.data_dir, '*'))
-    data_paths = ['/home/nico/workspace/python/3D-MSNet/dataset/PXD001091/mzml/130124_dilA_1_01.mzML',
-                 '/home/nico/workspace/python/3D-MSNet/dataset/PXD001091/mzml/130124_dilA_1_02.mzML',
-                 '/home/nico/workspace/python/3D-MSNet/dataset/PXD001091/mzml/130124_dilA_1_03.mzML',
-                 '/home/nico/workspace/python/3D-MSNet/dataset/PXD001091/mzml/130124_dilA_1_04.mzML']
+
     for path in data_path:
-        if path in data_paths:
-            continue
         if not path.lower().endswith('.mzml'):
             continue
         output_folder_name = path.split('/')[-1].split('.')[0]
@@ -378,8 +368,8 @@ def extract(args):
                                                 from_rt=args.from_rt, to_rt=args.to_rt,
                                                 window_mz_width=args.window_mz_width,
                                                 window_rt_width=args.window_rt_width,
-                                                max_peak_mz_width=args.max_peak_mz_width,
-                                                max_peak_rt_width=args.max_peak_rt_width,
+                                                expansion_mz_width=args.expansion_mz_width,
+                                                expansion_rt_width=args.expansion_rt_width,
                                                 min_intensity=args.min_intensity)
             print("File reading time cost: " + str(time.time() - start_time))
 
@@ -389,18 +379,18 @@ def extract(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='DDA data preparation')
 
-    parser.add_argument('--data_dir', type=str, help='converted file dir', required=True)
+    parser.add_argument('--data_dir', type=str, help='dataset dir', required=True)
     parser.add_argument('--output_dir', type=str, help='point cloud output directory', required=True)
-    parser.add_argument('--lib_path', type=str, help='library')
-    parser.add_argument('--window_mz_width', type=float, help='window_mz_width', default=0.8)
-    parser.add_argument('--window_rt_width', type=float, help='window_rt_width', default=6)
-    parser.add_argument('--min_intensity', type=float, help='min_intensity', default=128)
-    parser.add_argument('--from_mz', type=float, help='from_mz', default=100)
-    parser.add_argument('--to_mz', type=float, help='to_mz', default=1300)
-    parser.add_argument('--from_rt', type=float, help='from_rt', default=0)
-    parser.add_argument('--to_rt', type=float, help='to_rt', default=40)
-    parser.add_argument('--max_peak_mz_width', type=float, help='max_peak_mz_width', default=0.1)
-    parser.add_argument('--max_peak_rt_width', type=float, help='max_peak_rt_width', default=0.5)
+    parser.add_argument('--lib_path', type=str, help='only used in targeted mode')
+    parser.add_argument('--window_mz_width', type=float, help='M/z width of point cloud extraction window', default=0.8)
+    parser.add_argument('--window_rt_width', type=float, help='RT width of point cloud extraction window (min)', default=6)
+    parser.add_argument('--min_intensity', type=float, help='Signals below min_intensity will be abandoned', default=128)
+    parser.add_argument('--from_mz', type=float, help='Signals below from_mz will be abandoned', default=100)
+    parser.add_argument('--to_mz', type=float, help='Signals above from_mz will be abandoned', default=1300)
+    parser.add_argument('--from_rt', type=float, help='Signals below from_rt will be abandoned', default=0)
+    parser.add_argument('--to_rt', type=float, help='Signals above from_rt will be abandoned', default=40)
+    parser.add_argument('--expansion_mz_width', type=float, help='Expansion M/z width', default=0.1)
+    parser.add_argument('--expansion_rt_width', type=float, help='Expansion RT width', default=1)
     args = parser.parse_args()
 
     extract(args)

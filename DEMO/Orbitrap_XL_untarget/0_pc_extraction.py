@@ -19,15 +19,21 @@ sys.path.append(root_path)
 from workflow.predict.point_cloud_extractor import extract
 
 
-parser = argparse.ArgumentParser(description='ACA-wiff-target data preparation')
+parser = argparse.ArgumentParser(description='Orbitrap_XL_untarget data preparation')
 
-parser.add_argument('--data_dir', type=str, help='converted file dir', default=os.path.join(root_path, 'dataset', 'aca-wiff', 'mzml'))
-parser.add_argument('--output_dir', type=str, help='point cloud output directory', default=os.path.join(root_path, 'dataset', 'aca-wiff'))
-parser.add_argument('--lib_path', type=str, help='library', default=os.path.join(root_path, 'dataset', 'aca-wiff', 'lib.csv'))
+parser.add_argument('--data_dir', type=str, help='converted file dir', default=os.path.join(root_path, 'dataset', 'Orbitrap_XL', 'mzml'))
+parser.add_argument('--output_dir', type=str, help='point cloud output directory', default=os.path.join(root_path, 'dataset', 'Orbitrap_XL'))
+parser.add_argument('--lib_path', type=str, help='library')
 parser.add_argument('--mode', type=str, help='acquisition method', default='DDA')
 parser.add_argument('--window_mz_width', type=float, help='window_mz_width', default=0.8)
 parser.add_argument('--window_rt_width', type=float, help='window_rt_width', default=6)
-parser.add_argument('--min_intensity', type=float, help='min_intensity', default=0)
+parser.add_argument('--min_intensity', type=float, help='min_intensity', default=1000)
+parser.add_argument('--from_mz', type=float, help='from_mz', default=400)
+parser.add_argument('--to_mz', type=float, help='to_mz', default=2000)
+parser.add_argument('--from_rt', type=float, help='from_rt', default=0)
+parser.add_argument('--to_rt', type=float, help='to_rt', default=120)
+parser.add_argument('--expansion_mz_width', type=float, help='expansion_mz_width', default=0.2)
+parser.add_argument('--expansion_rt_width', type=float, help='expansion_rt_width', default=2)
 args = parser.parse_args()
 
 extract(args)

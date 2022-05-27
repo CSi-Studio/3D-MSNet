@@ -19,21 +19,15 @@ sys.path.append(root_path)
 from workflow.predict.point_cloud_extractor import extract
 
 
-parser = argparse.ArgumentParser(description='ACA-raw-untarget data preparation')
+parser = argparse.ArgumentParser(description='QE_HF_target data preparation')
 
-parser.add_argument('--data_dir', type=str, help='converted file dir', default=os.path.join(root_path, 'dataset', 'aca-raw', 'mzml'))
-parser.add_argument('--output_dir', type=str, help='point cloud output directory', default=os.path.join(root_path, 'dataset', 'aca-raw'))
-parser.add_argument('--lib_path', type=str, help='library')
+parser.add_argument('--data_dir', type=str, help='converted file dir', default=os.path.join(root_path, 'dataset', 'QE_HF', 'mzml'))
+parser.add_argument('--output_dir', type=str, help='point cloud output directory', default=os.path.join(root_path, 'dataset', 'QE_HF'))
+parser.add_argument('--lib_path', type=str, help='library', default=os.path.join(root_path, 'dataset', 'QE_HF', 'lib.csv'))
 parser.add_argument('--mode', type=str, help='acquisition method', default='DDA')
 parser.add_argument('--window_mz_width', type=float, help='window_mz_width', default=0.4)
 parser.add_argument('--window_rt_width', type=float, help='window_rt_width', default=6)
-parser.add_argument('--min_intensity', type=float, help='min_intensity', default=10000)
-parser.add_argument('--from_mz', type=float, help='from_mz', default=100)
-parser.add_argument('--to_mz', type=float, help='to_mz', default=1300)
-parser.add_argument('--from_rt', type=float, help='from_rt', default=0)
-parser.add_argument('--to_rt', type=float, help='to_rt', default=40)
-parser.add_argument('--max_peak_mz_width', type=float, help='max_peak_mz_width', default=0.05)
-parser.add_argument('--max_peak_rt_width', type=float, help='max_peak_rt_width', default=1)
+parser.add_argument('--min_intensity', type=float, help='min_intensity', default=1024)
 args = parser.parse_args()
 
 extract(args)

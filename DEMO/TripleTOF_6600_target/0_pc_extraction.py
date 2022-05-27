@@ -19,15 +19,15 @@ sys.path.append(root_path)
 from workflow.predict.point_cloud_extractor import extract
 
 
-parser = argparse.ArgumentParser(description='ACA-raw-target data preparation')
+parser = argparse.ArgumentParser(description='TripleTOF_6600_target data preparation')
 
-parser.add_argument('--data_dir', type=str, help='converted file dir', default=os.path.join(root_path, 'dataset', 'aca-raw', 'mzml'))
-parser.add_argument('--output_dir', type=str, help='point cloud output directory', default=os.path.join(root_path, 'dataset', 'aca-raw'))
-parser.add_argument('--lib_path', type=str, help='library', default=os.path.join(root_path, 'dataset', 'aca-raw', 'lib.csv'))
+parser.add_argument('--data_dir', type=str, help='converted file dir', default=os.path.join(root_path, 'dataset', 'TripleTOF_6600', 'mzml'))
+parser.add_argument('--output_dir', type=str, help='point cloud output directory', default=os.path.join(root_path, 'dataset', 'TripleTOF_6600'))
+parser.add_argument('--lib_path', type=str, help='library', default=os.path.join(root_path, 'dataset', 'TripleTOF_6600', 'lib.csv'))
 parser.add_argument('--mode', type=str, help='acquisition method', default='DDA')
-parser.add_argument('--window_mz_width', type=float, help='window_mz_width', default=0.4)
+parser.add_argument('--window_mz_width', type=float, help='window_mz_width', default=0.8)
 parser.add_argument('--window_rt_width', type=float, help='window_rt_width', default=6)
-parser.add_argument('--min_intensity', type=float, help='min_intensity', default=1024)
+parser.add_argument('--min_intensity', type=float, help='min_intensity', default=0)
 args = parser.parse_args()
 
 extract(args)
