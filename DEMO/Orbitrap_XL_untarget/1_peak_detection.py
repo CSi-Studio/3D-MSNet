@@ -41,4 +41,4 @@ data_dir = [os.path.join(data_root, 'Untarget-' + file_name) for file_name in fi
 evaluator = MsNetEvaluator(exp=network_dir, epoch=epoch)
 for eval_dir in data_dir:
     evaluator.eval(eval_dir=eval_dir, mass_analyzer='orbitrap', mz_resolution=60000, resolution_mz=400,
-                   rt_fwhm=0.25, center_threshold=0.5, block_rt_width=6, block_mz_width=0.8, target_id=None)
+                   rt_fwhm=0.25, center_threshold=0.6, block_rt_width=6, block_mz_width=0.8, target_id=None)
