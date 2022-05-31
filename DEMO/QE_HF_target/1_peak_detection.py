@@ -34,4 +34,5 @@ data_dir = [os.path.join(data_root, 'Target-SA1'),
 
 evaluator = MsNetEvaluator(exp=network_dir, epoch=epoch)
 for eval_dir in data_dir:
-    evaluator.eval(eval_dir=eval_dir, mass_analyzer='orbitrap', mz_resolution=60000, resolution_mz=200, rt_fwhm=0.1, block_rt_width=6, block_mz_width=0.4, target_id=-1)
+    evaluator.eval(eval_dir=eval_dir, mass_analyzer='orbitrap', mz_resolution=60000, resolution_mz=200, rt_fwhm=0.1,
+                   center_threshold=0.5, block_rt_width=6, block_mz_width=0.4, target_id=-1)

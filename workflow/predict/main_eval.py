@@ -44,7 +44,7 @@ class MsNetEvaluator:
         self.net.center_net.eval()
         self.net.polar_mask_net.eval()
 
-    def eval(self, eval_dir, mass_analyzer, mz_resolution, resolution_mz, rt_fwhm, block_rt_width=None, block_mz_width=None, target_id=None):
+    def eval(self, eval_dir, mass_analyzer, mz_resolution, resolution_mz, rt_fwhm, center_threshold=0.5, block_rt_width=None, block_mz_width=None, target_id=None):
         start_time = time.time()
         print('Evaluating on ', eval_dir)
         eval_file_paths = glob.glob(os.path.join(eval_dir, '*.csv'))
@@ -82,7 +82,7 @@ class MsNetEvaluator:
             pre_center = pre_center[0].cpu().detach().numpy()
             pre_masks = pre_masks[0].cpu().detach().numpy()
 
-            center_idx = ((pre_center * pre_sem) > 0.5).nonzero()[0]
+            center_idx = ((pre_center * pre_sem) > center_threshold).nonzero()[0]
 
             candidate_masks = pre_masks[center_idx]
             final_center_idx, final_masks = get_final_masks(points, pre_masks, center_idx, candidate_masks)
@@ -214,6 +214,7 @@ if __name__ == '__main__':
     parser.add_argument('--rt_fwhm', type=float, help='median of feature RT FWHM', required=True)
     parser.add_argument('--experiment', type=str, help='choose a pretrained model', default='msnet_20220215_143158')
     parser.add_argument('--epoch', type=int, help='choose the epoch of saved model', default=300)
+    parser.add_argument('--center_threshold', type=float, help='feature center selection threshold', default=0.5)
     parser.add_argument('--block_rt_width', type=float, help='point cloud rt window width', default=6)
     parser.add_argument('--block_mz_width', type=float, help='point cloud m/z window width', default=0.8)
     parser.add_argument('--target_id', type=int, help='None, not visualize. -1, visualize each point cloud. Integer, visualize a specific point cloud', default=None)
@@ -225,5 +226,5 @@ if __name__ == '__main__':
     evaluator = MsNetEvaluator(exp=args.experiment, epoch=args.epoch)
     for eval_dir in data_dir:
         evaluator.eval(eval_dir=eval_dir, mass_analyzer=args.mass_analyzer, mz_resolution=args.mz_resolution,
-                       resolution_mz=args.resolution_mz, rt_fwhm=args.rt_fwhm, block_rt_width=args.block_rt_width,
-                       block_mz_width=args.block_mz_width, target_id=args.target_id)
+                       resolution_mz=args.resolution_mz, rt_fwhm=args.rt_fwhm, center_threshold=args.center_threshold,
+                       block_rt_width=args.block_rt_width, block_mz_width=args.block_mz_width, target_id=args.target_id)
