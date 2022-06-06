@@ -18,8 +18,8 @@ sys.path.append(root_path)
 from workflow.predict.main_eval import MsNetEvaluator
 
 os.environ["CUDA_VISIBLE_DEVICES"] = '0'
-network_dir = 'msnet_20220215_143158'
-epoch = 300
+network_dir = 'msnet_20220427_141044'
+epoch = 1000
 data_root = os.path.join(root_path, 'dataset', 'TripleTOF_6600')
 data_dir = [os.path.join(data_root, 'Untarget-20170326-960MIX_SampleA_1'),
             os.path.join(data_root, 'Untarget-20170326-960MIX_SampleA_2'),
