@@ -1,15 +1,13 @@
 # 3D-MSNet: A point cloud based deep learning model for untargeted feature detection and quantification in profile LC-HRMS data
 
-If you meet any problem in running or training 3D-MSNet, feel free to contact ***wangruimin@westlake.edu.cn***
-
 
 ## Highlights
-- **Novelty:** 3D-MSNet achieves lossless high-dimensional feature detection and quantification, by considering LC-MS feature detection problem as a 3D point cloud instance segmentation problem.
-- **Accuracy:** 3D-MSNet achieved the best accuracy in terms of feature detection and quantification on the test datasets. 
-- **Applicability:** 3D-MSNet can be widely applied to various MS systems and acquisition methods. 
-- **Efficiency:** 3D-MSNet spends reasonable analysis time by accelerating with GPU, which is similar to traditional methods and about 5 times faster than other deep learning methods. 
-- **Potentiality:** 3D-MSNet can obtain better accuracy on bigger annotated training datasets.
-
+- **Novelty:** 3D-MSNet enables direct spatial analysis on lossless 3D MS data for the first time, considering the feature extraction problem as an instance segmentation task on LC-MS point clouds.
+- **Accuracy:** 3D-MSNet achieved the best performance in feature detection and quantification compared to popular software in metabolomics and proteomics.
+- **Reliability:** 3D-MSNet achieved the best performance on all the three benchmark datasets (metabolomics TripleTOF 6600, metabolomics QE HF, proteomics Orbitrap XL) with the same pre-trained model (trained on metabolomics TripleTOF 6600).
+- **Efficiency:** 3D-MSNet spent similar analysis time as traditional methods and about five times faster than other deep-learning-based methods.
+- **Open source:** We open-sourced 3D-MSNet in order to promote the accuracy of MS data interpretation more broadly.
+- **Dataset:** We provide open access to our training dataset, named the 3DMS dataset. Each signal point in the 3DMS dataset was manually annotated with an instance label, indicating whether the point belongs to a feature and to which feature it belongs.
 
 ## Environment
 ##### Recommended
