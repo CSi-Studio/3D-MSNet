@@ -9,6 +9,9 @@
 - **Open source:** We open-sourced 3D-MSNet in order to promote the accuracy of MS data interpretation more broadly.
 - **Dataset:** We provide open access to our training dataset, named the 3DMS dataset. Each signal point in the 3DMS dataset was manually annotated with an instance label, indicating whether the point belongs to a feature and to which feature it belongs.
 
+## Sample video
+https://user-images.githubusercontent.com/32756079/172276005-e7168e82-502d-49ae-bc68-1d8d681029fe.mov
+
 ## Environment
 ##### Recommended
 Intel(R)_Core(TM)_i9-10900K CPU, 128GB memory, GeForce RTX 3090 GPU
