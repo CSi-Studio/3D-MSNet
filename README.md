@@ -14,7 +14,7 @@ https://user-images.githubusercontent.com/32756079/172276005-e7168e82-502d-49ae-
 
 ## Environment
 ##### Recommended
-Intel(R)_Core(TM)_i9-10900K CPU, 128GB memory, GeForce RTX 3090 GPU
+Intel(R)_Core(TM)_i9-10900K CPU, 32GB memory, GeForce RTX 3090 GPU
 
 Ubuntu 16.04 + CUDA 11.1 + cuDNN 8.0.5
 
