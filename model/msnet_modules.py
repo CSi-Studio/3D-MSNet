@@ -85,7 +85,7 @@ class MSNetSAModule(nn.Module):
     def forward(self, xyz: torch.Tensor, feature: torch.Tensor = None, new_xyz=None) -> (torch.Tensor, torch.Tensor):
         """
         :param xyz: (B, N, 3) tensor of the xyz coordinates of the features
-        :param feature: (B, N, C) tensor of the descriptors of the the features
+        :param feature: (B, N, C) tensor of the descriptors of the features
         :param new_xyz:
         :return:
             new_xyz: (B, npoint, 3) tensor of the new features' xyz
@@ -97,7 +97,6 @@ class MSNetSAModule(nn.Module):
         if new_xyz is None:
             if self.use_sample:
                 score = (xyz[:, :, 2].transpose(0, 1) / torch.max(xyz[:, :, 2], dim=1)[0]).transpose(0, 1)
-                torch.manual_seed(27)
                 random = torch.rand(score.shape, dtype=torch.float32).cuda() * 1.1
                 residual = random - score
                 n_sample = int(max(1024, min(10000, xyz.shape[1] / 2)))

@@ -135,7 +135,7 @@ class MsNetEvaluator:
                     center_map = np.zeros(pre_center.shape)
                     center_map[center_idx] = 1
                     # Plot.draw_pc_heatmap(pc_xyz=points, idx=pc_id, heatmap=center_map)
-                    # Plot.draw_pc_polar(pc_xyzrgb=points, idx=pc_id, center_idxes=center_idx, polar_masks=candidate_masks)
+                    Plot.draw_pc_polar(pc_xyzrgb=points, idx=pc_id, center_idxes=center_idx, polar_masks=candidate_masks)
                     Plot.draw_pc_polar(pc_xyzrgb=points, idx=pc_id, center_idxes=final_center_idx, polar_masks=final_masks)
                     print(pc_id)
         time_cost = time.time() - start_time

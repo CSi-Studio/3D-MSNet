@@ -131,7 +131,7 @@ class Plot:
                 mask_set.points = open3d.Vector3dVector(support_points)
                 mask_set.lines = open3d.Vector2iVector(lines)
                 mask_set.colors = open3d.Vector3dVector(colors)
-                # series += [mask_set]
+                series += [mask_set]
 
                 support_points = np.concatenate((np.array([[center[0], center[1], -0.5]]), support_points), axis=0)
                 center_line = [[j, 0] for j in range(1, 37)]
